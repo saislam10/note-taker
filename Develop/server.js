@@ -1,34 +1,46 @@
 const express = require('express');
-
+const path = require('path');
 const PORT = 3001;
-const index = require('./public/index');
-const notes = require('./public/notes');
-const { uuid } = require('./public/utils');
+const notes = require('./db/db.json');
+const { uuid } = require('./public/utils/id');
 
 const app = express();
+app.use(express.static('./public'));
+
+
+
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 
+app.get('/', (req, res) => 
+res.sendFile(path.join(__dirname, './public/index.html'))
+);
+
+app.get('/notes', (req, res) => 
+res.sendFile(path.join(__dirname, './public/notes.html'))
+);
+
+
+
 app.get('/api/notes', (req, res) => {
   console.info(`${req.method} request received to get notes`);
-  return res.json(notes);
+  res.json(notes);
 });
 
 app.post('/api/notes', (req, res) => {
     console.info(`${req.method} request received to add a note`);
-  
     let response;
-  
-    if (req.body && req.body.product) {
+    
+    if (req.body && req.body.title && req.body.text) {
       response = {
         status: 'success',
-        data: req.body,
+        title: req.body,
       };
-      notes.push({
+        notes.push({
         ...req.body,
-        note_id: uuid(),
+        // note_id = uuid()
       });
       res.json(`Note for ${response.data.product} has been added!`);
     } else {
@@ -38,6 +50,10 @@ app.post('/api/notes', (req, res) => {
     console.log(req.body);
   });
   
+  app.delete('/api/notes/:id', (req, res) => {
+    res.json(notes);
+  });
+
   app.listen(PORT, () =>
-    console.log(`Express server listening on port ${PORT}!`)
+    console.log(`Express server listening on port http://localhost:${PORT}`)
   );
