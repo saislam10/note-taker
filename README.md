@@ -18,6 +18,6 @@ In this challenge, there is code which builds out a note taker. When I first ope
 
 
 ## Resources
-[Live Site](https://saislam10.github.io/note-taker/)
+[Live Site](https://desolate-garden-82135.herokuapp.com/)
 
 [GitHub Repository](https://github.com/saislam10/note-taker)
