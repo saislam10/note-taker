@@ -29,22 +29,30 @@ app.get('/api/notes', (req, res) => {
 
 app.post('/api/notes', (req, res) => {
   console.info(`${req.method} request received to add a note`);
-
-  if (req.body && req.body.title && req.body.text) {
+  const {title, text} = req.body;
+  if (title && text) {
     const pointer = {
-      title: req.body.title,
-      text: req.body.text,
+      title,
+      text,
       id: uuid(),
     };
     notes.push(pointer);
     let answers = JSON.stringify((notes), null, 2);
-    fs.writeFile('./db/db.json', answers, () => {
-      const input = {
-        body: savedNote,
-      }
-      res.json(input);
-    })
-  };;
+    fs.writeFile('./db/db.json', answers, (err) => 
+    err
+    ? console.error(err)
+        : console.log(`Note for ${pointer.title} has been written to JSON file`)
+    );
+    const input = {
+      status: "success",
+      body: pointer,
+    };
+
+    console.log(input);
+    res.status(201).json(input);
+  } else {
+    res.status(500).json("Error in posting note");
+  }
 });
 
 // app.delete('/api/notes/:id', (req, res) => {
