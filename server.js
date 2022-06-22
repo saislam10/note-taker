@@ -2,7 +2,7 @@ const express = require('express');
 const path = require('path');
 const PORT = process.env.PORT || 3001;
 const notes = require('./db/db.json');
-const { uuid } = require('./public/utils/id');
+// const { uuid } = require('./public/utils/id');
 
 const app = express();
 app.use(express.static('./public'));
@@ -50,9 +50,9 @@ app.post('/api/notes', (req, res) => {
     console.log(req.body);
   });
   
-  app.delete('/api/notes/:id', (req, res) => {
-    res.json(notes);
-  });
+  // app.delete('/api/notes/:id', (req, res) => {
+  //   res.json(notes);
+  // });
 
   app.listen(PORT, () =>
     console.log(`Express server listening on port http://localhost:${PORT}`)
