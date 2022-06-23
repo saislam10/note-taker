@@ -56,9 +56,13 @@ app.post('/api/notes', (req, res) => {
   }
 });
 
-// app.delete('/api/notes/:id', (req, res) => {
-//   res.json(notes);
-// });
+//used the resource from tabnine.com
+app.delete('/api/notes/:id', (req, res) => {
+  const { id } = req.params;
+  const indexFinder = notes.findIndex(n => n.id == id);
+  notes.splice(indexFinder, 1);
+  return res.send();
+ });
 
 app.listen(PORT, () =>
   console.log(`Express server listening on port http://localhost:${PORT}`)
